@@ -1,0 +1,34 @@
+{
+    "name": "rf24js",
+    "version": "1.0.0",
+    "description": "NRF24 wrapper for tmrh20 c++ library",
+    "main": "./build/Release/rf24js.node",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "install": "node-gyp rebuild"
+    },
+    "author": "Giuseppe Riolo",
+    "license": "MIT",
+    "gypfile": true,
+    "dependencies": {
+        "nan": "^2.5.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RioloGiuseppe/rf24js.git"
+    },
+    "keywords": [
+        "rf24",
+        "tmrh20",
+        "javascript",
+        "js",
+        "radio",
+        "nfr",
+        "nrf24"
+    ],
+    "bugs": {
+        "url": "https://github.com/RioloGiuseppe/rf24js/issues"
+    },
+    "homepage": "https://github.com/RioloGiuseppe/rf24js#readme",
+    "readme": "https://github.com/RioloGiuseppe/rf24js#readme"
+}
