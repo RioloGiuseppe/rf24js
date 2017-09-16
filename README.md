@@ -1,7 +1,9 @@
+# rf24js
 
-[![Support Node of LTS](https://img.shields.io/badge/node-LTS-brightgreen.svg)](https://nodejs.org/)
-[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&type=6&v=1.0.0)](https://badge.fury.io/js/icon-gen)
-[![Build Status](https://travis-ci.org/akabekobeko/npm-icon-gen.svg?branch=master)](https://travis-ci.org/akabekobeko/npm-icon-gen)
+![Support Node of LTS](https://img.shields.io/badge/node-LTS-brightgreen.svg?style=plastic) ![npm version](https://img.shields.io/badge/npm-3.5.0-brightgreen.svg?style=plastic) ![Build passing](https://img.shields.io/badge/build-passing-brightgreen.svg?style=plastic) ![dependencies rf24 nan](https://img.shields.io/badge/dependencies-RF24_|%20NAN-blue.svg?style=plastic) ![License mit](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic) ![tested](https://img.shields.io/badge/tested%20on-Raspberry%20Pi%20|%20Orange%20Pi-orange.svg?style=plastic)
+
+---
+
 # Description
 Module rf24js wants to be a simple wrapper of [RF24C++ library by TMRH20](https://github.com/nRF24/RF24). No logic added, just existing methods wrapped.
 
