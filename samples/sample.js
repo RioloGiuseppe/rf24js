@@ -1,4 +1,4 @@
-var radio = require('../.');
+var radio = require('../.').rf24js;
 
 var pipe1 = new Buffer("1Node\0");
 var pipe2 = new Buffer("2Node\0")

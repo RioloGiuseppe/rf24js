@@ -31,7 +31,7 @@ Parameter *ce* is the mini-pc pin number in with is connected radio chip enable 
 Parameter *cs* is a number (byte) to select SPI device in with is connected the radio.
 Use 0 to use /dev/spidev0.0 and 10 to use /dev/spidev1.0
 ```js
-var radio = require('./build/Release/rf24js.node');
+var radio = require('rf24js').rf24js;
 radio.create(2, 10);
 radio.begin();
 ```

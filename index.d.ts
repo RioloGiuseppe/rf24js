@@ -1,9 +1,9 @@
 /// <reference types="node" />
 
-export = __RF24JS;
 
-declare namespace __RF24JS {
-  class rf24js {
+declare module 'rf24js' {
+  
+ export interface Irf24js {
     /**
      * Arduino Constructor
      *
@@ -791,4 +791,5 @@ declare namespace __RF24JS {
      */
     flush_rx():number
   }
+  export var rf24js:Irf24js;
 }
