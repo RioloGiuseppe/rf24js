@@ -1,8 +1,9 @@
-var radio = require('./build/Release/rf24js.node');
+var radio = require('../.');
 
 var pipe1 = new Buffer("1Node\0");
 var pipe2 = new Buffer("2Node\0")
 
+console.log(radio)
 
 /********** User Config *********/
 // Assign a unique identifier for this node, 0 or 1
