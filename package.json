@@ -30,11 +30,9 @@
     }],
     "license": "MIT",
     "gypfile": true,
-    "devDependencies": {
-        "@types/node": "^8.0.28"
-    },
     "dependencies": {
-        "nan": "^2.7.0"
+        "nan": "^2.7.0",
+        "@types/node": "^8.0.28"
     },
     "repository": {
         "type": "git",
