@@ -115,16 +115,19 @@ NAN_METHOD(EnableDynamicAck) {
 }
 
 NAN_METHOD(Available) {
-    if(info.Length()==0) {
-        std::lock_guard<std::mutex> guard(radio_mutex);
-        v8::Local<v8::Boolean> status = Nan::New(radio->available());
-        info.GetReturnValue().Set(status);
-    } else if(info.Length()==1){
-        uint8_t* _buffer = (uint8_t*) node::Buffer::Data(info[0]->ToObject());
-        std::lock_guard<std::mutex> guard(radio_mutex);
-        v8::Local<v8::Boolean> status = Nan::New(radio->available(_buffer));
-        info.GetReturnValue().Set(status);
-    }
+    std::lock_guard<std::mutex> guard(radio_mutex);
+    v8::Local<v8::Boolean> status = Nan::New(radio->available());
+    info.GetReturnValue().Set(status);
+}
+
+NAN_METHOD(AvailableFull) {
+    uint8_t ch;
+    v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+    std::lock_guard<std::mutex> guard(radio_mutex);
+    bool status = radio->available(ch);
+    obj->Set(Nan::New("status").ToLocalChecked(), New<Boolean>(status));
+    obj->Set(Nan::New("channel").ToLocalChecked(), New<Number>(ch));
+    info.GetReturnValue().Set(obj);
 }
 
 NAN_METHOD(IsChipConnected) {
@@ -384,6 +387,17 @@ NAN_METHOD(OpenReadingPipe) {
     radio->openReadingPipe(number, _buffer);
 }
 
+NAN_METHOD(WhatHappened) {
+    bool tx_ok,tx_fail,rx_ready;
+    v8::Local<v8::Object> obj = Nan::New<v8::Object>();
+    std::lock_guard<std::mutex> guard(radio_mutex);
+    radio->whatHappened(tx_ok,tx_fail,rx_ready);
+    obj->Set(Nan::New("txOk").ToLocalChecked(), New<Boolean>(tx_ok));
+    obj->Set(Nan::New("txFail").ToLocalChecked(), New<Boolean>(tx_ok));
+    obj->Set(Nan::New("rxReady").ToLocalChecked(), New<Boolean>(rx_ready));
+    info.GetReturnValue().Set(obj);
+}
+
 NAN_MODULE_INIT(Init){
     Nan::Set(target, New<String>("begin").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Begin)).ToLocalChecked());
     Nan::Set(target, New<String>("startListening").ToLocalChecked(), GetFunction(New<FunctionTemplate>(StartListening)).ToLocalChecked());
@@ -398,7 +412,8 @@ NAN_MODULE_INIT(Init){
     Nan::Set(target, New<String>("enableDynamicPayloads").ToLocalChecked(), GetFunction(New<FunctionTemplate>(EnableDynamicPayloads)).ToLocalChecked());
     Nan::Set(target, New<String>("disableDynamicPayloads").ToLocalChecked(), GetFunction(New<FunctionTemplate>(DisableDynamicPayloads)).ToLocalChecked());
     Nan::Set(target, New<String>("isPVariant").ToLocalChecked(), GetFunction(New<FunctionTemplate>(IsPVariant)).ToLocalChecked());  
-    Nan::Set(target, New<String>("available").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Available)).ToLocalChecked());
+    Nan::Set(target, New<String>("available").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Available)).ToLocalChecked());   
+    Nan::Set(target, New<String>("availableFull").ToLocalChecked(), GetFunction(New<FunctionTemplate>(AvailableFull)).ToLocalChecked());
     Nan::Set(target, New<String>("isChipConnected").ToLocalChecked(), GetFunction(New<FunctionTemplate>(IsChipConnected)).ToLocalChecked());
     Nan::Set(target, New<String>("testCarrier").ToLocalChecked(), GetFunction(New<FunctionTemplate>(TestCarrier)).ToLocalChecked());
     Nan::Set(target, New<String>("testRPD").ToLocalChecked(), GetFunction(New<FunctionTemplate>(TestRPD)).ToLocalChecked());
@@ -432,6 +447,7 @@ NAN_MODULE_INIT(Init){
     Nan::Set(target, New<String>("openReadingPipe").ToLocalChecked(), GetFunction(New<FunctionTemplate>(OpenReadingPipe)).ToLocalChecked());
     Nan::Set(target, New<String>("openWritingPipe").ToLocalChecked(), GetFunction(New<FunctionTemplate>(OpenWritingPipe)).ToLocalChecked());
     Nan::Set(target, New<String>("create").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Create)).ToLocalChecked());    
+    Nan::Set(target, New<String>("whatHappened").ToLocalChecked(), GetFunction(New<FunctionTemplate>(WhatHappened)).ToLocalChecked());  
 }
 
 NODE_MODULE(rf24js, Init)
