@@ -2,9 +2,10 @@
     "name": "rf24js",
     "version": "2.0.0",
     "description": "NRF24 wrapper for tmrh20 c++ library",
-    "main": "index.js",
-    "typings": "./index.d.ts",
+    "main": "./dist/index.js",
+    "typings": "./dist/index.d.ts",
     "scripts": {
+        "prepublish": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1",
         "install": "node-gyp rebuild"
     },

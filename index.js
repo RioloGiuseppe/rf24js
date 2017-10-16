@@ -1,1 +1,0 @@
-module.exports = { rf24js: require('bindings')('rf24js.node') };

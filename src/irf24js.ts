@@ -1,29 +1,9 @@
+import {CRCLength} from './crcLength'
+import {Datarate} from './datarate'
+import {PALevel} from './paLevel'
 import {} from 'node'
 
-declare module 'rf24js' {
-  
-  export enum PALevel {
-    RF24_PA_MIN = 0,
-    RF24_PA_LOW = 1, 
-    RF24_PA_HIGH = 2, 
-    RF24_PA_MAX = 3, 
-    RF24_PA_ERROR = 4
-  }
-
-  export enum Datarate {
-    RF24_1MBPS = 0, 
-    RF24_2MBPS = 1, 
-    RF24_250KBPS = 2
-  }
-
-  export enum CRCLength {
-    RF24_CRC_DISABLED = 0,
-    RF24_CRC_8=1,
-    RF24_CRC_16=2
-  }
-
-
- export interface Irf24js {
+export interface Irf24js {
     /**
      * Arduino Constructor
      *
@@ -34,8 +14,8 @@ declare module 'rf24js' {
      * @param _cspin The pin attached to Chip Select
      */
     create( _cepin:number,  _cspin:number):void;
-    
-   /**
+
+    /**
     * Optional Linux Constructor
     *
     * Creates a new instance of this driver.  Before using, you create an instance
@@ -46,17 +26,17 @@ declare module 'rf24js' {
     * @param spispeed For RPi, the SPI speed in MHZ ie: BCM2835_SPI_SPEED_8MHZ
     */
     create( _cepin:number,  _cspin:number,  spispeed:number ):void;
-  
+
     /**
      * Begin operation of the chip
      * 
      * Call this in setup(), before calling any other methods.
-  
+     
     /**
      * Checks if the chip is connected to the SPI bus
      */
     isChipConnected():boolean;
-  
+
     /**
      * Start listening on the pipes opened for reading.
      *
@@ -66,19 +46,19 @@ declare module 'rf24js' {
      * 
      */
     startListening():void;
-  
+
     /**
      * Stop listening for incoming messages, and switch to transmit mode.
      *
      * Do this before calling write().
      */
     stopListening():void;
-  
+
     /**
      * Check whether there are bytes available to be read
      * @return True if there is a payload available, false if none is
      */
-     available():boolean;
+        available():boolean;
 
 
     /**
@@ -86,7 +66,7 @@ declare module 'rf24js' {
      * @return Returns an object contains the status and the channel number where are datas to read
      */
     availableFull(): {status:boolean,channel:number};
-  
+
     /**
      * Read the available payload
      *
@@ -105,7 +85,7 @@ declare module 'rf24js' {
      * @return No return value. Use available().
      */
     read(len:number):Buffer;
-  
+
     /**
      * Be sure to call openWritingPipe() first to set the destination
      * of where to write to.
@@ -124,8 +104,8 @@ declare module 'rf24js' {
      * @param len Number of bytes to be sent
      *  @return True if the payload was delivered successfully false if not
      */
-     write(buf:Buffer, len:number ):boolean;
-  
+        write(buf:Buffer, len:number ):boolean;
+
     /**
      * New: Open a pipe for writing via byte array. Old addressing format retained
      * for compatibility.
@@ -136,13 +116,13 @@ declare module 'rf24js' {
      * Addresses are assigned via a byte array, default is 5 byte address length
      *
      *@see setAddressWidth
-     *
-     * @param address The address of the pipe to open. Coordinate these pipe
-     * addresses amongst nodes on the network.
-     */
-  
+        *
+        * @param address The address of the pipe to open. Coordinate these pipe
+        * addresses amongst nodes on the network.
+        */
+
     openWritingPipe(address:Buffer):void;
-  
+
     /**
      * Open a pipe for reading
      *
@@ -164,20 +144,20 @@ declare module 'rf24js' {
      * @param address The 24, 32 or 40 bit address of the pipe to open.
      */
     openReadingPipe( number:number, address:Buffer):void;
-  
-     /**@}*/
+
+        /**@}*/
     /**
      * @name Advanced Operation
      *
      *  Methods you can use to drive the chip in more advanced ways
      */
     /**@{*/
-  
+
     /**
      * Print a giant block of debugging information to stdout
      */
     printDetails():void;
-  
+
     /**
      * Test whether there are bytes available to be read in the
      * FIFO buffers. 
@@ -185,15 +165,15 @@ declare module 'rf24js' {
      * @param[out] pipe_num Which pipe has the payload available
      *  
      *@return True if there is a payload available, false if none is
-     */
-     available(pipe_num:Buffer):boolean;
-  
+        */
+        available(pipe_num:Buffer):boolean;
+
     /**
      * Check if the radio needs to be read. Can be used to prevent data loss
      * @return True if all three 32-byte radio buffers are full
      */
-     rxFifoFull():boolean;
-  
+        rxFifoFull():boolean;
+
     /**
      * Enter low-power mode
      *
@@ -207,7 +187,7 @@ declare module 'rf24js' {
      *
      */
     powerDown():void;
-  
+
     /**
      * Leave low-power mode - required for normal radio operation after calling powerDown()
      * 
@@ -215,7 +195,7 @@ declare module 'rf24js' {
      * @note This will take up to 5ms for maximum compatibility 
      */
     powerUp():void;
-  
+
     /**
     * Write for single NOACK writes. Optionally disables acknowledgements/autoretries for a single write.
     *
@@ -230,8 +210,8 @@ declare module 'rf24js' {
     * @param len Number of bytes to be sent
     * @param multicast Request ACK (0), NOACK (1)
     */
-     write(   buf:Buffer, len:number,   multicast:boolean ):boolean;
-  
+        write(   buf:Buffer, len:number,   multicast:boolean ):boolean;
+
     /**
      * This will not block until the 3 FIFO buffers are filled with data.
      * Once the FIFOs are full, writeFast will simply wait for success or
@@ -250,8 +230,8 @@ declare module 'rf24js' {
      * @param len Number of bytes to be sent
      * @return True if the payload was delivered successfully false if not
      */
-     writeFast(buf:Buffer, len:number ):boolean;
-  
+        writeFast(buf:Buffer, len:number ):boolean;
+
     /**
     * WriteFast for single NOACK writes. Disables acknowledgements/autoretries for a single write.
     *
@@ -263,8 +243,8 @@ declare module 'rf24js' {
     * @param len Number of bytes to be sent
     * @param multicast Request ACK (0) or NOACK (1)
     */
-     writeFast(buf:Buffer, len:number,multicast:boolean ):boolean;
-  
+        writeFast(buf:Buffer, len:number,multicast:boolean ):boolean;
+
     /**
      * This function extends the auto-retry mechanism to any specified duration.
      * It will not block until the 3 FIFO buffers are filled with data.
@@ -284,8 +264,8 @@ declare module 'rf24js' {
      * @param timeout User defined timeout in milliseconds.
      * @return True if the payload was loaded into the buffer successfully false if not
      */
-     writeBlocking(   buf:Buffer, len:number, timeout:number ):boolean;
-  
+        writeBlocking(   buf:Buffer, len:number, timeout:number ):boolean;
+
     /**
      * This function should be called as soon as transmission is finished to
      * drop the radio back to STANDBY-I mode. If not issued, the radio will
@@ -303,8 +283,8 @@ declare module 'rf24js' {
      * @return True if transmission is successful
      *
      */
-      txStandBy():boolean;
-  
+        txStandBy():boolean;
+
     /**
      * This function allows extended blocking and auto-retries per a user defined timeout
      * @note If used from within an interrupt, the interrupt should be disabled until completion, and sei(); called to enable millis().
@@ -312,8 +292,8 @@ declare module 'rf24js' {
      * @return True if transmission is successful
      *
      */
-      txStandBy(timeout:number,  startTx :boolean):boolean;
-  
+        txStandBy(timeout:number,  startTx :boolean):boolean;
+
     /**
      * Write an ack payload for the specified pipe
      *
@@ -333,7 +313,7 @@ declare module 'rf24js' {
      * by the static payload set by setPayloadSize().
      */
     writeAckPayload(pipe:number,   buf:Buffer, len:number):void;
-  
+
     /**
      * Determine if an ack payload was received in the most recent call to
      * write(). The regular available() can also be used.
@@ -342,9 +322,9 @@ declare module 'rf24js' {
      *
      * @return True if an ack payload is available.
      */
-     isAckPayloadAvailable():boolean;
-  
-   
+        isAckPayloadAvailable():boolean;
+
+
     /**
      * Non-blocking write to the open writing pipe used for buffered writes
      *
@@ -370,7 +350,7 @@ declare module 'rf24js' {
      * @return True if the payload was delivered successfully false if not
      */
     startFastWrite(   buf:Buffer, len:number,   multicast:boolean,  startTx :boolean):void;
-  
+
     /**
      * Non-blocking write to the open writing pipe
      *
@@ -392,7 +372,7 @@ declare module 'rf24js' {
      *
      */
     startWrite(   buf:Buffer, len:number,   multicast:boolean ):void;
-    
+
     /**
      * This function is mainly used internally to take advantage of the auto payload
      * re-use functionality of the chip, but can be beneficial to users as well.
@@ -408,8 +388,8 @@ declare module 'rf24js' {
      * After issuing reUseTX(), it will keep reending the same payload forever or until
      * a payload is written to the FIFO, or a flush_tx command is given.
      */
-     reUseTX():void;
-  
+        reUseTX():void;
+
     /**
      * Empty the transmit buffer. This is generally not required in standard operation.
      * May be required in specific cases after stopListening() , if operating at 250KBPS data rate.
@@ -417,7 +397,7 @@ declare module 'rf24js' {
      * @return Current value of status register
      */
     flush_tx():number;
-  
+
     /**
      * Test whether there was a carrier on the line for the
      * previous listening period.
@@ -426,8 +406,8 @@ declare module 'rf24js' {
      *
      * @return true if was carrier, false if not
      */
-     testCarrier():boolean;
-  
+        testCarrier():boolean;
+
     /**
      * Test whether a signal (carrier or otherwise) greater than
      * or equal to -64dBm is present on the channel. Valid only
@@ -437,9 +417,9 @@ declare module 'rf24js' {
      * channel hopping strategies.
      *
      *@return true if signal => -64dBm, false if not
-     */
-     testRPD() :boolean;
-  
+        */
+        testRPD() :boolean;
+
     /**
      * Test whether this is a real radio, or a mock shim for
      * debugging.  Setting either pin to 0xff is the way to
@@ -447,23 +427,23 @@ declare module 'rf24js' {
      *
      * @return true if this is a legitimate radio
      */
-     isValid():boolean
-    
-     /**
+        isValid():boolean
+
+        /**
      * Close a pipe after it has been previously opened.
      * Can be safely called without having previously opened a pipe.
      * @param pipe Which pipe # to close, 0-5.
      */
     closeReadingPipe(  pipe :number):void;
-  
-    
+
+
     /**
     * Set the address width from 3 to 5 bytes (24, 32 or 40 bit)
     *
     * @param a_width The address width to use: 3,4 or 5
     */
     setAddressWidth(a_width:number):void;
-    
+
     /**
      * Set the number and delay of retries upon failed submit
      *
@@ -472,21 +452,21 @@ declare module 'rf24js' {
      * @param count How many retries before giving up, max 15
      */
     setRetries(delay:number,  count:number):void;
-  
+
     /**
      * Set RF communication channel
      *
      * @param channel Which RF channel to communicate on, 0-125
      */
     setChannel(channel:number):void;
-    
-      /**
+
+        /**
      * Get RF communication channel
      *
      * @return The currently configured RF Channel
      */
     getChannel():number;
-  
+
     /**
      * Set Static Payload Size
      *
@@ -500,7 +480,7 @@ declare module 'rf24js' {
      * @param size The number of bytes in the payload
      */
     setPayloadSize( size:number):void;
-  
+
     /**
      * Get Static Payload Size
      *
@@ -509,7 +489,7 @@ declare module 'rf24js' {
      * @return The number of bytes in the payload
      */
     getPayloadSize():number;
-  
+
     /**
      * Get Dynamic Payload Size
      *
@@ -521,7 +501,7 @@ declare module 'rf24js' {
      * @return Payload length of last-received dynamic payload
      */
     getDynamicPayloadSize():number;
-  
+
     /**
      * Enable custom payloads on the acknowledge packets
      *
@@ -532,7 +512,7 @@ declare module 'rf24js' {
      * enableDynamicPayloads() to enable on all pipes.
      */
     enableAckPayload():void;
-  
+
     /**
      * Enable dynamically-sized payloads
      *
@@ -541,7 +521,7 @@ declare module 'rf24js' {
      *
      */
     enableDynamicPayloads():void;
-    
+
     /**
      * Disable dynamically-sized payloads
      *
@@ -552,7 +532,7 @@ declare module 'rf24js' {
      *
      */
     disableDynamicPayloads():void;
-    
+
     /**
      * Enable dynamic ACKs (single write multicast or unicast) for chosen messages
      *
@@ -561,15 +541,15 @@ declare module 'rf24js' {
      * @warning This MUST be called prior to attempting single write NOACK calls
      */
     enableDynamicAck():void;
-    
+
     /**
      * Determine whether the hardware is an nRF24L01+ or not.
      *
      * @return true if the hardware is nRF24L01+ (or compatible) and false
      * if its not.
      */
-     isPVariant():boolean ;
-  
+        isPVariant():boolean ;
+
     /**
      * Enable or disable auto-acknowlede packets
      *
@@ -579,7 +559,7 @@ declare module 'rf24js' {
      * @param enable Whether to enable (true) or disable (false) auto-acks
      */
     setAutoAck(enable:boolean):void;
-  
+
     /**
      * Enable or disable auto-acknowlede packets on a per pipeline basis.
      *
@@ -589,8 +569,8 @@ declare module 'rf24js' {
      * @param pipe Which pipeline to modify
      * @param enable Whether to enable (true) or disable (false) auto-acks
      */
-    setAutoAck( pipe:number,  enable:boolean ) ;
-  
+    setAutoAck( pipe:number,  enable:boolean ):void;
+
     /**
      * Set Power Amplifier (PA) level to one of four levels:
      * RF24_PA_MIN, RF24_PA_LOW, RF24_PA_HIGH and RF24_PA_MAX
@@ -603,7 +583,7 @@ declare module 'rf24js' {
      * @param level Desired PA level.
      */
     setPALevel ( level :PALevel):void;
-  
+
     /**
      * Fetches the current PA level.
      *
@@ -612,8 +592,8 @@ declare module 'rf24js' {
      *
      * @return Returns values 0 to 3 representing the PA Level.
      */
-     getPALevel( ):PALevel;
-  
+        getPALevel( ):PALevel;
+
     /**
      * Set the transmission data rate
      *
@@ -622,8 +602,8 @@ declare module 'rf24js' {
      * @param speed RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
      * @return true if the change was successful
      */
-     setDataRate(speed:Datarate):void;
-  
+        setDataRate(speed:Datarate):void;
+
     /**
      * Fetches the transmission data rate
      *
@@ -632,28 +612,28 @@ declare module 'rf24js' {
      * rf24_datarate_e enum.
      */
     getDataRate():Datarate ;
-  
+
     /**
      * Set the CRC length
      * <br>CRC checking cannot be disabled if auto-ack is enabled
      * @param length RF24_CRC_8 for 8-bit or RF24_CRC_16 for 16-bit
      */
     setCRCLength(length:CRCLength):void;
-  
+
     /**
      * Get the CRC length
      * <br>CRC checking cannot be disabled if auto-ack is enabled
      * @return RF24_CRC_DISABLED if disabled or RF24_CRC_8 for 8-bit or RF24_CRC_16 for 16-bit
      */
     getCRCLength():CRCLength;
-  
+
     /**
      * Disable CRC validation
      * 
      * @warning CRC cannot be disabled if auto-ack/ESB is enabled.
      */
-    disableCRC( ) ;
-  
+    disableCRC():void ;
+
     /**
     * The radio will generate interrupt signals when a transmission is complete,
     * a transmission fails, or a payload is received. This allows users to mask
@@ -665,7 +645,7 @@ declare module 'rf24js' {
     * @param rx_ready Mask payload received interrupts
     */
     maskIRQ( tx_ok:boolean, tx_fail:boolean, rx_ready:boolean):void;
-    
+
     /**
      * Open a pipe for reading
      * @note For compatibility with old code only, see new function
@@ -680,7 +660,7 @@ declare module 'rf24js' {
      * @param address The 40-bit address of the pipe to open.
      */
     openReadingPipe(number:number, address:number):void;
-  
+
     /**
      * Open a pipe for writing
      * @note For compatibility with old code only, see new function
@@ -690,13 +670,11 @@ declare module 'rf24js' {
      * @param address The 40-bit address of the pipe to open.
      */
     openWritingPipe(address:number):void;
-  
+
     /**
      * Empty the receive buffer
      *
      * @return Current value of status register
      */
     flush_rx():number
-  }
-  export var rf24js:Irf24js;
 }
