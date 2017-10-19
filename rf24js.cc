@@ -124,7 +124,7 @@ NAN_METHOD(AvailableFull) {
     uint8_t ch;
     v8::Local<v8::Object> obj = Nan::New<v8::Object>();
     std::lock_guard<std::mutex> guard(radio_mutex);
-    bool status = radio->available(ch);
+    bool status = radio->available(&ch);
     obj->Set(Nan::New("status").ToLocalChecked(), New<Boolean>(status));
     obj->Set(Nan::New("channel").ToLocalChecked(), New<Number>(ch));
     info.GetReturnValue().Set(obj);
