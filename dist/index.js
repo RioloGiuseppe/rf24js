@@ -6,5 +6,5 @@ var datarate_1 = require("./datarate");
 exports.Datarate = datarate_1.Datarate;
 var paLevel_1 = require("./paLevel");
 exports.PALevel = paLevel_1.PALevel;
-exports.rf24js = require('bindings')('rf24js.node');
+exports.radio = require('bindings')('rf24js.node');
 //# sourceMappingURL=index.js.map
