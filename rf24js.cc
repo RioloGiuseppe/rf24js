@@ -209,12 +209,12 @@ NAN_METHOD(SetPALevel) {
     radio->setPALevel(level);
 }
 
-NAN_METHOD(MaskIRQ) {
+NAN_METHOD(EnableInterrupts) {
     bool tx_ok = info[0]->BooleanValue();
     bool tx_fail = info[1]->BooleanValue();
     bool rx_ready = info[2]->BooleanValue();
     std::lock_guard<std::mutex> guard(radio_mutex);
-    radio->maskIRQ(tx_ok, tx_fail, rx_ready);
+    radio->maskIRQ(!tx_ok, !tx_fail, !rx_ready);
 }
 
 NAN_METHOD(Flush_tx) {
@@ -448,6 +448,7 @@ NAN_MODULE_INIT(Init){
     Nan::Set(target, New<String>("openWritingPipe").ToLocalChecked(), GetFunction(New<FunctionTemplate>(OpenWritingPipe)).ToLocalChecked());
     Nan::Set(target, New<String>("create").ToLocalChecked(), GetFunction(New<FunctionTemplate>(Create)).ToLocalChecked());    
     Nan::Set(target, New<String>("whatHappened").ToLocalChecked(), GetFunction(New<FunctionTemplate>(WhatHappened)).ToLocalChecked());  
+    Nan::Set(target, New<String>("enableInterrupts").ToLocalChecked(), GetFunction(New<FunctionTemplate>(EnableInterrupts)).ToLocalChecked());  
 }
 
 NODE_MODULE(rf24js, Init)

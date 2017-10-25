@@ -5,8 +5,6 @@ import {} from 'node'
 
 export interface Irf24js {
     /**
-     * Arduino Constructor
-     *
      * Creates a new instance of this driver.  Before using, you create an instance
      * and send in the unique pins that this chip is connected to.
      *
@@ -31,7 +29,9 @@ export interface Irf24js {
      * Begin operation of the chip
      * 
      * Call this in setup(), before calling any other methods.
-     
+     */
+    begin():void
+    
     /**
      * Checks if the chip is connected to the SPI bus
      */
@@ -58,7 +58,7 @@ export interface Irf24js {
      * Check whether there are bytes available to be read
      * @return True if there is a payload available, false if none is
      */
-        available():boolean;
+    available():boolean;
 
 
     /**
@@ -115,12 +115,11 @@ export interface Irf24js {
      *
      * Addresses are assigned via a byte array, default is 5 byte address length
      *
-     *@see setAddressWidth
-        *
-        * @param address The address of the pipe to open. Coordinate these pipe
-        * addresses amongst nodes on the network.
-        */
-
+     * @see setAddressWidth
+     *
+     * @param address The address of the pipe to open. Coordinate these pipe
+     * addresses amongst nodes on the network.
+     */
     openWritingPipe(address:Buffer):void;
 
     /**
@@ -159,20 +158,10 @@ export interface Irf24js {
     printDetails():void;
 
     /**
-     * Test whether there are bytes available to be read in the
-     * FIFO buffers. 
-     *
-     * @param[out] pipe_num Which pipe has the payload available
-     *  
-     *@return True if there is a payload available, false if none is
-        */
-        available(pipe_num:Buffer):boolean;
-
-    /**
      * Check if the radio needs to be read. Can be used to prevent data loss
      * @return True if all three 32-byte radio buffers are full
      */
-        rxFifoFull():boolean;
+    rxFifoFull():boolean;
 
     /**
      * Enter low-power mode
@@ -210,7 +199,7 @@ export interface Irf24js {
     * @param len Number of bytes to be sent
     * @param multicast Request ACK (0), NOACK (1)
     */
-        write(   buf:Buffer, len:number,   multicast:boolean ):boolean;
+    write(   buf:Buffer, len:number,   multicast:boolean ):boolean;
 
     /**
      * This will not block until the 3 FIFO buffers are filled with data.
@@ -230,7 +219,7 @@ export interface Irf24js {
      * @param len Number of bytes to be sent
      * @return True if the payload was delivered successfully false if not
      */
-        writeFast(buf:Buffer, len:number ):boolean;
+    writeFast(buf:Buffer, len:number ):boolean;
 
     /**
     * WriteFast for single NOACK writes. Disables acknowledgements/autoretries for a single write.
@@ -243,7 +232,7 @@ export interface Irf24js {
     * @param len Number of bytes to be sent
     * @param multicast Request ACK (0) or NOACK (1)
     */
-        writeFast(buf:Buffer, len:number,multicast:boolean ):boolean;
+    writeFast(buf:Buffer, len:number,multicast:boolean ):boolean;
 
     /**
      * This function extends the auto-retry mechanism to any specified duration.
@@ -264,7 +253,7 @@ export interface Irf24js {
      * @param timeout User defined timeout in milliseconds.
      * @return True if the payload was loaded into the buffer successfully false if not
      */
-        writeBlocking(   buf:Buffer, len:number, timeout:number ):boolean;
+    writeBlocking(   buf:Buffer, len:number, timeout:number ):boolean;
 
     /**
      * This function should be called as soon as transmission is finished to
@@ -283,7 +272,7 @@ export interface Irf24js {
      * @return True if transmission is successful
      *
      */
-        txStandBy():boolean;
+    txStandBy():boolean;
 
     /**
      * This function allows extended blocking and auto-retries per a user defined timeout
@@ -292,7 +281,7 @@ export interface Irf24js {
      * @return True if transmission is successful
      *
      */
-        txStandBy(timeout:number,  startTx :boolean):boolean;
+    txStandBy(timeout:number,  startTx :boolean):boolean;
 
     /**
      * Write an ack payload for the specified pipe
@@ -322,7 +311,7 @@ export interface Irf24js {
      *
      * @return True if an ack payload is available.
      */
-        isAckPayloadAvailable():boolean;
+    isAckPayloadAvailable():boolean;
 
 
     /**
@@ -388,7 +377,7 @@ export interface Irf24js {
      * After issuing reUseTX(), it will keep reending the same payload forever or until
      * a payload is written to the FIFO, or a flush_tx command is given.
      */
-        reUseTX():void;
+    reUseTX():void;
 
     /**
      * Empty the transmit buffer. This is generally not required in standard operation.
@@ -406,7 +395,7 @@ export interface Irf24js {
      *
      * @return true if was carrier, false if not
      */
-        testCarrier():boolean;
+    testCarrier():boolean;
 
     /**
      * Test whether a signal (carrier or otherwise) greater than
@@ -417,8 +406,8 @@ export interface Irf24js {
      * channel hopping strategies.
      *
      *@return true if signal => -64dBm, false if not
-        */
-        testRPD() :boolean;
+     */
+    testRPD() :boolean;
 
     /**
      * Test whether this is a real radio, or a mock shim for
@@ -427,9 +416,9 @@ export interface Irf24js {
      *
      * @return true if this is a legitimate radio
      */
-        isValid():boolean
+    isValid():boolean
 
-        /**
+    /**
      * Close a pipe after it has been previously opened.
      * Can be safely called without having previously opened a pipe.
      * @param pipe Which pipe # to close, 0-5.
@@ -548,7 +537,7 @@ export interface Irf24js {
      * @return true if the hardware is nRF24L01+ (or compatible) and false
      * if its not.
      */
-        isPVariant():boolean ;
+    isPVariant():boolean ;
 
     /**
      * Enable or disable auto-acknowlede packets
@@ -592,7 +581,7 @@ export interface Irf24js {
      *
      * @return Returns values 0 to 3 representing the PA Level.
      */
-        getPALevel( ):PALevel;
+    getPALevel( ):PALevel;
 
     /**
      * Set the transmission data rate
@@ -602,7 +591,7 @@ export interface Irf24js {
      * @param speed RF24_250KBPS for 250kbs, RF24_1MBPS for 1Mbps, or RF24_2MBPS for 2Mbps
      * @return true if the change was successful
      */
-        setDataRate(speed:Datarate):void;
+    setDataRate(speed:Datarate):void;
 
     /**
      * Fetches the transmission data rate
@@ -640,11 +629,20 @@ export interface Irf24js {
     * those interrupts to prevent them from generating a signal on the interrupt
     * pin. Interrupts are enabled on the radio chip by default.
     *
-    * @param tx_ok  Mask transmission complete interrupts
-    * @param tx_fail  Mask transmit failure interrupts
-    * @param rx_ready Mask payload received interrupts
+    * @param tx_ok  Enable transmission complete interrupts
+    * @param tx_fail  Enable transmit failure interrupts
+    * @param rx_ready Enable payload received interrupts
     */
-    maskIRQ( tx_ok:boolean, tx_fail:boolean, rx_ready:boolean):void;
+    enableInterrupts( tx_ok:boolean, tx_fail:boolean, rx_ready:boolean):void;
+
+    /**
+     * Call this when you get an interrupt to find out why
+     *
+     * Tells you what caused the interrupt, and clears the state of
+     * interrupts.
+     * 
+     */
+    whatHappened(): {txOk:boolean, txFail:boolean, rxReady: boolean}
 
     /**
      * Open a pipe for reading

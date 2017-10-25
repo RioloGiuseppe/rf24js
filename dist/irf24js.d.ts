@@ -4,8 +4,6 @@ import { Datarate } from './datarate';
 import { PALevel } from './paLevel';
 export interface Irf24js {
     /**
-     * Arduino Constructor
-     *
      * Creates a new instance of this driver.  Before using, you create an instance
      * and send in the unique pins that this chip is connected to.
      *
@@ -28,7 +26,8 @@ export interface Irf24js {
      * Begin operation of the chip
      *
      * Call this in setup(), before calling any other methods.
-     
+     */
+    begin(): void;
     /**
      * Checks if the chip is connected to the SPI bus
      */
