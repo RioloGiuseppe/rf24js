@@ -106,11 +106,11 @@ export interface Irf24js {
      *
      * Addresses are assigned via a byte array, default is 5 byte address length
      *
-     *@see setAddressWidth
-        *
-        * @param address The address of the pipe to open. Coordinate these pipe
-        * addresses amongst nodes on the network.
-        */
+     * @see setAddressWidth
+     *
+     * @param address The address of the pipe to open. Coordinate these pipe
+     * addresses amongst nodes on the network.
+     */
     openWritingPipe(address: Buffer): void;
     /**
      * Open a pipe for reading
@@ -144,15 +144,6 @@ export interface Irf24js {
      * Print a giant block of debugging information to stdout
      */
     printDetails(): void;
-    /**
-     * Test whether there are bytes available to be read in the
-     * FIFO buffers.
-     *
-     * @param[out] pipe_num Which pipe has the payload available
-     *
-     *@return True if there is a payload available, false if none is
-        */
-    available(pipe_num: Buffer): boolean;
     /**
      * Check if the radio needs to be read. Can be used to prevent data loss
      * @return True if all three 32-byte radio buffers are full
@@ -385,7 +376,7 @@ export interface Irf24js {
      * channel hopping strategies.
      *
      *@return true if signal => -64dBm, false if not
-        */
+     */
     testRPD(): boolean;
     /**
      * Test whether this is a real radio, or a mock shim for
@@ -396,10 +387,10 @@ export interface Irf24js {
      */
     isValid(): boolean;
     /**
- * Close a pipe after it has been previously opened.
- * Can be safely called without having previously opened a pipe.
- * @param pipe Which pipe # to close, 0-5.
- */
+     * Close a pipe after it has been previously opened.
+     * Can be safely called without having previously opened a pipe.
+     * @param pipe Which pipe # to close, 0-5.
+     */
     closeReadingPipe(pipe: number): void;
     /**
     * Set the address width from 3 to 5 bytes (24, 32 or 40 bit)
@@ -583,11 +574,23 @@ export interface Irf24js {
     * those interrupts to prevent them from generating a signal on the interrupt
     * pin. Interrupts are enabled on the radio chip by default.
     *
-    * @param tx_ok  Mask transmission complete interrupts
-    * @param tx_fail  Mask transmit failure interrupts
-    * @param rx_ready Mask payload received interrupts
+    * @param tx_ok  Enable transmission complete interrupts
+    * @param tx_fail  Enable transmit failure interrupts
+    * @param rx_ready Enable payload received interrupts
     */
-    maskIRQ(tx_ok: boolean, tx_fail: boolean, rx_ready: boolean): void;
+    enableInterrupts(tx_ok: boolean, tx_fail: boolean, rx_ready: boolean): void;
+    /**
+     * Call this when you get an interrupt to find out why
+     *
+     * Tells you what caused the interrupt, and clears the state of
+     * interrupts.
+     *
+     */
+    whatHappened(): {
+        txOk: boolean;
+        txFail: boolean;
+        rxReady: boolean;
+    };
     /**
      * Open a pipe for reading
      * @note For compatibility with old code only, see new function

@@ -27,7 +27,8 @@ NAN_METHOD(Create) {
 
 NAN_METHOD(Begin) {
     std::lock_guard<std::mutex> guard(radio_mutex);
-    radio->begin();
+    v8::Local<v8::Boolean> status = Nan::New(radio->begin());
+    info.GetReturnValue().Set(status);
 }
 
 NAN_METHOD(StartListening) {
