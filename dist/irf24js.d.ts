@@ -27,7 +27,7 @@ export interface Irf24js {
      *
      * Call this in setup(), before calling any other methods.
      */
-    begin(): void;
+    begin(): boolean;
     /**
      * Checks if the chip is connected to the SPI bus
      */
